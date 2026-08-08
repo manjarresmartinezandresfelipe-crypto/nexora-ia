@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nexora AI builds modern websites and AI chatbots for businesses." />
+  <title>Nexora AI — Websites & AI Chatbots</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="navbar">
+    <div class="container nav">
+      <a class="brand" href="#home"><span class="logo">✦</span><span>Nexora <b>AI</b></span></a>
+      <nav class="desktop-nav">
+        <a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#why-us">Why Us</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a>
+      </nav>
+      <a class="btn btn-primary small" href="#contact">Get a Free Quote</a>
+      <button class="menu-btn" aria-label="Open menu" onclick="toggleMenu()">☰</button>
+    </div>
+    <nav id="mobile-nav" class="mobile-nav">
+      <a href="#services" onclick="toggleMenu()">Services</a><a href="#portfolio" onclick="toggleMenu()">Portfolio</a><a href="#why-us" onclick="toggleMenu()">Why Us</a><a href="#pricing" onclick="toggleMenu()">Pricing</a><a href="#contact" onclick="toggleMenu()">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="glow"></div><div class="grid-bg"></div>
+      <div class="container hero-content">
+        <span class="eyebrow">✦ AI-powered digital growth</span>
+        <h1>Websites & AI solutions that <span>grow your business.</span></h1>
+        <p>We create modern websites, AI chatbots, and smart automations that help businesses attract customers, answer questions, and save time.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#contact">Get a Free Quote →</a><a class="btn btn-outline" href="#portfolio">See Our Work</a></div>
+        <div class="trust"><span>Fast delivery</span><i></i><span>Mobile-first</span><i></i><span>Built for your business</span></div>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-head"><span class="label">Services</span><h2>Everything your business needs online</h2><p>Simple, professional digital solutions without the agency price tag.</p></div>
+        <div class="cards four">
+          <article class="card"><div class="icon">💬</div><h3>AI Chatbots</h3><p>Answer customer questions, qualify leads and help people 24/7.</p><ul><li>Lead capture</li><li>FAQ automation</li><li>WhatsApp-ready</li></ul></article>
+          <article class="card"><div class="icon">🌐</div><h3>Website Development</h3><p>Fast, modern websites designed to turn visitors into customers.</p><ul><li>Mobile responsive</li><li>SEO-ready</li><li>Custom design</li></ul></article>
+          <article class="card"><div class="icon">⚙️</div><h3>Business Automation</h3><p>Automate repetitive tasks so you can spend more time running your business.</p><ul><li>Workflow automation</li><li>Forms & leads</li><li>Tool integrations</li></ul></article>
+          <article class="card"><div class="icon">🚀</div><h3>Website + AI</h3><p>Combine a professional website with intelligent tools that work for you.</p><ul><li>Custom AI features</li><li>Conversion-focused</li><li>Ongoing support</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="section alt">
+      <div class="container">
+        <div class="section-head"><span class="label">Portfolio</span><h2>Demo projects</h2><p>Examples of the kind of websites we can build for local businesses.</p></div>
+        <div class="portfolio-grid">
+          <article class="project"><div class="project-image restaurant">RESTAURANT</div><div class="project-body"><h3>Aruba Restaurant</h3><p>Modern restaurant website with menu, reservations and WhatsApp contact.</p><a href="#contact">Build something like this →</a></div></article>
+          <article class="project"><div class="project-image barber">BARBERSHOP</div><div class="project-body"><h3>Modern Barbershop</h3><p>Service list, gallery, pricing and appointment-focused design.</p><a href="#contact">Build something like this →</a></div></article>
+          <article class="project"><div class="project-image rental">RENTALS</div><div class="project-body"><h3>Vacation Rentals</h3><p>Property showcase with inquiries and direct customer contact.</p><a href="#contact">Build something like this →</a></div></article>
+        </div>
+        <p class="demo-note">These are concept demos, not client testimonials or completed client projects.</p>
+      </div>
+    </section>
+
+    <section id="why-us" class="section">
+      <div class="container why">
+        <div><span class="label">Why Nexora AI</span><h2>Professional results without the complexity.</h2><p>We combine modern design with practical AI so your website does more than look good.</p></div>
+        <div class="reason-grid">
+          <div class="reason"><b>⚡ Fast delivery</b><p>Launch a strong first version quickly and improve it as your business grows.</p></div>
+          <div class="reason"><b>📱 Mobile-first</b><p>Your customers get a great experience on phones, tablets and computers.</p></div>
+          <div class="reason"><b>🤖 Practical AI</b><p>We focus on AI features that actually save time or help generate leads.</p></div>
+          <div class="reason"><b>🛠️ Ongoing support</b><p>Need changes after launch? We can keep improving your site.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section alt">
+      <div class="container">
+        <div class="section-head"><span class="label">Starting prices</span><h2>Simple packages</h2><p>Final pricing depends on your business and the features you need.</p></div>
+        <div class="cards three">
+          <article class="price"><h3>Starter Website</h3><div class="amount">$150</div><span>starting price</span><ul><li>✓ Professional one-page site</li><li>✓ Mobile responsive</li><li>✓ Contact / WhatsApp button</li><li>✓ Basic SEO setup</li></ul><a class="btn btn-outline full" href="#contact">Get a Quote</a></article>
+          <article class="price featured"><div class="popular">Most Popular</div><h3>Business Website</h3><div class="amount">$300</div><span>starting price</span><ul><li>✓ Multi-section website</li><li>✓ Custom design</li><li>✓ WhatsApp / contact flow</li><li>✓ Basic SEO</li><li>✓ Launch support</li></ul><a class="btn btn-primary full" href="#contact">Get a Quote</a></article>
+          <article class="price"><h3>Website + AI</h3><div class="amount">$500</div><span>starting price</span><ul><li>✓ Professional website</li><li>✓ AI chatbot</li><li>✓ Lead capture</li><li>✓ Custom AI features</li><li>✓ Launch support</li></ul><a class="btn btn-outline full" href="#contact">Get a Quote</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="container contact-grid">
+        <div><span class="label">Contact</span><h2>Let's build something that gets you customers.</h2><p>Tell us what your business needs. We'll reply with a simple plan and quote.</p><div class="contact-info">✉️ Email: <strong>ianexora3@gmail.com</strong></div></div>
+        <form id="contact-form" class="form" onsubmit="submitForm(event)">
+          <label>Name<input id="name" required placeholder="Your name"></label>
+          <label>Business<input id="business" placeholder="Business name"></label>
+          <label>Email<input id="email" type="email" required placeholder="you@example.com"></label>
+          <label>What do you need?<textarea id="message" required placeholder="Website, chatbot, automation..."></textarea></label>
+          <button class="btn btn-primary full" type="submit">Send Inquiry →</button>
+          <small id="form-note">This demo opens your email app with the message prepared.</small>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer"><div><a class="brand" href="#home"><span class="logo">✦</span><span>Nexora <b>AI</b></span></a><p>Modern websites and practical AI for growing businesses.</p></div><div><b>Quick Links</b><div class="footer-links"><a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></div></div></div><div class="copyright">© <span id="year"></span> Nexora AI. Demo portfolio.</div></footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
