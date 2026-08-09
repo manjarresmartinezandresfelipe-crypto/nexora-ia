@@ -1,14 +1,23 @@
 const navbar = document.getElementById("navbar");
 
-window.addEventListener("scroll", () => {
-  navbar.classList.toggle("scrolled", window.scrollY > 16);
-});
-
-function toggleMenu() {
-  document.getElementById("mobile-nav").classList.toggle("open");
+if (navbar) {
+  window.addEventListener("scroll", () => {
+    navbar.classList.toggle("scrolled", window.scrollY > 16);
+  });
 }
 
-document.getElementById("year").textContent = new Date().getFullYear();
+function toggleMenu() {
+  const menu = document.getElementById("mobile-nav");
+  if (menu) {
+    menu.classList.toggle("open");
+  }
+}
+
+const year = document.getElementById("year");
+
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
 
 function submitForm(e) {
   e.preventDefault();
@@ -43,74 +52,44 @@ const WORKER_URL =
   "https://nexora-ai.manjarresmartinezandresfelipe.workers.dev";
 
 function setupNexoraChat() {
-  const elements = document.querySelectorAll("button, a");
 
-  const aiButton = Array.from(elements).find(element =>
-    element.textContent.toLowerCase().includes("ia asistente")
-  );
+  const aiButton = document.getElementById("nexora-ai-button");
+  const chat = document.getElementById("nexora-chat");
+  const closeButton = document.getElementById("nexora-close");
+  const form = document.getElementById("nexora-form");
+  const input = document.getElementById("nexora-input");
 
-  if (!aiButton) return;
+  if (!aiButton || !chat) {
+    console.log("Nexora AI elements not found");
+    return;
+  }
 
-  aiButton.addEventListener("click", openNexoraChat);
+  aiButton.addEventListener("click", () => {
+    chat.classList.add("open");
+
+    if (input) {
+      input.focus();
+    }
+  });
+
+  if (closeButton) {
+    closeButton.addEventListener("click", () => {
+      chat.classList.remove("open");
+    });
+  }
+
+  if (form) {
+    form.addEventListener("submit", sendNexoraMessage);
+  }
 }
 
-function openNexoraChat() {
-  if (document.getElementById("nexora-chat")) return;
 
-  const chat = document.createElement("div");
+async function sendNexoraMessage(event) {
 
-  chat.id = "nexora-chat";
+  if (event) {
+    event.preventDefault();
+  }
 
-  chat.innerHTML = `
-    <div class="nexora-chat-header">
-      <div>
-        <strong>✦ Nexora AI</strong>
-        <small>AI Assistant</small>
-      </div>
-
-      <button id="close-nexora-chat">×</button>
-    </div>
-
-    <div id="nexora-messages" class="nexora-messages">
-      <div class="nexora-message bot">
-        Hi! 👋 I'm the Nexora AI assistant.
-        How can I help you today?
-      </div>
-    </div>
-
-    <div class="nexora-chat-input">
-      <input
-        id="nexora-input"
-        type="text"
-        placeholder="Ask something..."
-      />
-
-      <button id="nexora-send">➤</button>
-    </div>
-  `;
-
-  document.body.appendChild(chat);
-
-  document
-    .getElementById("close-nexora-chat")
-    .addEventListener("click", () => {
-      chat.remove();
-    });
-
-  document
-    .getElementById("nexora-send")
-    .addEventListener("click", sendNexoraMessage);
-
-  document
-    .getElementById("nexora-input")
-    .addEventListener("keydown", event => {
-      if (event.key === "Enter") {
-        sendNexoraMessage();
-      }
-    });
-}
-
-async function sendNexoraMessage() {
   const input = document.getElementById("nexora-input");
   const messages = document.getElementById("nexora-messages");
 
@@ -121,7 +100,7 @@ async function sendNexoraMessage() {
   if (!message) return;
 
   messages.innerHTML += `
-    <div class="nexora-message user">
+    <div class="chat-bubble user">
       ${escapeHtml(message)}
     </div>
   `;
@@ -129,7 +108,7 @@ async function sendNexoraMessage() {
   input.value = "";
 
   messages.innerHTML += `
-    <div id="nexora-loading" class="nexora-message bot">
+    <div id="nexora-thinking" class="chat-bubble bot">
       Thinking...
     </div>
   `;
@@ -137,6 +116,7 @@ async function sendNexoraMessage() {
   messages.scrollTop = messages.scrollHeight;
 
   try {
+
     const response = await fetch(WORKER_URL, {
       method: "POST",
 
@@ -152,28 +132,29 @@ async function sendNexoraMessage() {
     const data = await response.json();
 
     document
-      .getElementById("nexora-loading")
+      .getElementById("nexora-thinking")
       ?.remove();
 
     messages.innerHTML += `
-      <div class="nexora-message bot">
+      <div class="chat-bubble bot">
         ${escapeHtml(
-          data.response ||
-          "Sorry, I couldn't answer that."
+          data.response || "Sorry, I couldn't answer that."
         )}
       </div>
     `;
 
   } catch (error) {
 
+    console.error("Nexora AI error:", error);
+
     document
-      .getElementById("nexora-loading")
+      .getElementById("nexora-thinking")
       ?.remove();
 
     messages.innerHTML += `
-      <div class="nexora-message bot">
+      <div class="chat-bubble bot">
         Sorry, something went wrong.
-        Please contact us at
+        Please contact
         <strong>ianexora3@gmail.com</strong>.
       </div>
     `;
@@ -182,13 +163,16 @@ async function sendNexoraMessage() {
   messages.scrollTop = messages.scrollHeight;
 }
 
+
 function escapeHtml(text) {
+
   const div = document.createElement("div");
 
   div.textContent = text;
 
   return div.innerHTML;
 }
+
 
 document.addEventListener(
   "DOMContentLoaded",
