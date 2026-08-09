@@ -1,135 +1,225 @@
-const navbar=document.getElementById("navbar");
-function updateNavbar(){navbar.classList.toggle("scrolled",window.scrollY>20)}
-window.addEventListener("scroll",updateNavbar);
-updateNavbar();
+const navbar = document.getElementById("navbar");
 
-function toggleMenu(){
-  const mobileNav=document.getElementById("mobile-nav");
-  const menuButton=document.getElementById("menu-btn");
-  const isOpen=mobileNav.classList.toggle("open");
-  menuButton.setAttribute("aria-expanded",isOpen);
-  menuButton.textContent=isOpen?"✕":"☰";
-}
-document.addEventListener("click",(event)=>{
-  const mobileNav=document.getElementById("mobile-nav");
-  const menuButton=document.getElementById("menu-btn");
-  if(mobileNav.classList.contains("open")&&!mobileNav.contains(event.target)&&!menuButton.contains(event.target)){
-    mobileNav.classList.remove("open");
-    menuButton.setAttribute("aria-expanded","false");
-    menuButton.textContent="☰";
-  }
+window.addEventListener("scroll", () => {
+  navbar.classList.toggle("scrolled", window.scrollY > 16);
 });
 
-document.getElementById("year").textContent=new Date().getFullYear();
-
-const revealElements=document.querySelectorAll(".reveal");
-if("IntersectionObserver" in window){
-  const observer=new IntersectionObserver((entries,obs)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add("visible");
-        obs.unobserve(entry.target);
-      }
-    });
-  },{threshold:.12});
-  revealElements.forEach(el=>observer.observe(el));
+function toggleMenu() {
+  document.getElementById("mobile-nav").classList.toggle("open");
 }
 
-function submitForm(event){
-  event.preventDefault();
-  const name=document.getElementById("name").value.trim();
-  const business=document.getElementById("business").value.trim();
-  const email=document.getElementById("email").value.trim();
-  const message=document.getElementById("message").value.trim();
-  if(!name||!email||!message)return;
-  const subject=encodeURIComponent(`New Nexora AI inquiry from ${name}`);
-  const body=encodeURIComponent(`Hello Nexora AI,
+document.getElementById("year").textContent = new Date().getFullYear();
 
-I would like to discuss a project.
+function submitForm(e) {
+  e.preventDefault();
 
-Name: ${name}
-Business: ${business||"Not provided"}
+  const name = document.getElementById("name").value;
+  const business = document.getElementById("business").value;
+  const email = document.getElementById("email").value;
+  const message = document.getElementById("message").value;
+
+  const subject = encodeURIComponent(
+    "New Nexora AI inquiry from " + name
+  );
+
+  const body = encodeURIComponent(
+`Name: ${name}
+Business: ${business || "Not provided"}
 Email: ${email}
 
-Project details:
-${message}
+${message}`
+  );
 
-Thank you.`);
-  window.location.href=`mailto:ianexora3@gmail.com?subject=${subject}&body=${body}`;
+  window.location.href =
+    `mailto:ianexora3@gmail.com?subject=${subject}&body=${body}`;
 }
 
-document.querySelectorAll('a[href^="#"]').forEach(link=>{
-  link.addEventListener("click",event=>{
-    const targetId=link.getAttribute("href");
-    if(!targetId||targetId==="#")return;
-    const target=document.querySelector(targetId);
-    if(!target)return;
-    event.preventDefault();
-    target.scrollIntoView({behavior:"smooth",block:"start"});
-  });
-});
 
-/* AI CHATBOT */
-const CHATBOT_API_URL=""; // Paste your Cloudflare Worker URL here after deploying it.
-const chatToggle=document.getElementById("chat-toggle");
-const chatWidget=document.getElementById("chat-widget");
-const chatClose=document.getElementById("chat-close");
-const chatForm=document.getElementById("chat-form");
-const chatInput=document.getElementById("chat-input");
-const chatMessages=document.getElementById("chat-messages");
-const chatStatus=document.getElementById("chat-status");
+/* =========================
+   NEXORA AI ASSISTANT
+========================= */
 
-function openChat(){chatWidget.classList.add("open");chatInput.focus()}
-function closeChat(){chatWidget.classList.remove("open")}
-chatToggle.addEventListener("click",()=>chatWidget.classList.contains("open")?closeChat():openChat());
-chatClose.addEventListener("click",closeChat);
+const WORKER_URL =
+  "https://nexora-ai.manjarresmartinezandresfelipe.workers.dev";
 
-function addMessage(text,type){
-  const div=document.createElement("div");
-  div.className=`chat-bubble ${type}`;
-  div.textContent=text;
-  chatMessages.appendChild(div);
-  chatMessages.scrollTop=chatMessages.scrollHeight;
+
+function setupNexoraChat() {
+
+  const elements = document.querySelectorAll("button, a");
+
+  const aiButton = Array.from(elements).find(element =>
+    element.textContent.toLowerCase().includes("ia asistente")
+  );
+
+  if (!aiButton) return;
+
+  aiButton.addEventListener("click", openNexoraChat);
 }
 
-function setTyping(on){
-  chatStatus.innerHTML=on?'<span class="typing"><i></i><i></i><i></i></span>':"";
-}
 
-async function sendChatMessage(text){
-  const clean=text.trim();
-  if(!clean)return;
-  addMessage(clean,"user");
-  chatInput.value="";
-  setTyping(true);
+function openNexoraChat() {
 
-  if(!CHATBOT_API_URL){
-    setTyping(false);
-    addMessage("The AI assistant is ready, but it still needs its secure backend URL. Ask us directly at ianexora3@gmail.com for now.", "bot");
-    return;
-  }
+  if (document.getElementById("nexora-chat")) return;
 
-  try{
-    const response=await fetch(CHATBOT_API_URL,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:clean})
+  const chat = document.createElement("div");
+
+  chat.id = "nexora-chat";
+
+  chat.innerHTML = `
+    <div class="nexora-chat-box">
+
+      <div class="nexora-chat-header">
+
+        <div>
+          <strong>✦ Nexora AI</strong>
+          <small>AI Assistant</small>
+        </div>
+
+        <button id="close-nexora-chat">×</button>
+
+      </div>
+
+      <div id="nexora-messages" class="nexora-messages">
+
+        <div class="nexora-message bot">
+          Hi! 👋 I'm the Nexora AI assistant.
+          How can I help you today?
+        </div>
+
+      </div>
+
+      <div class="nexora-chat-input">
+
+        <input
+          id="nexora-input"
+          type="text"
+          placeholder="Ask something..."
+        />
+
+        <button id="nexora-send">➤</button>
+
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(chat);
+
+  document
+    .getElementById("close-nexora-chat")
+    .addEventListener("click", () => {
+      chat.remove();
     });
-    const data=await response.json();
-    if(!response.ok)throw new Error(data.error||"Request failed");
-    addMessage(data.reply||"Sorry, I couldn't answer that right now.","bot");
-  }catch(error){
-    addMessage("Sorry, the AI assistant is temporarily unavailable. You can contact us at ianexora3@gmail.com.","bot");
-  }finally{
-    setTyping(false);
-  }
+
+  document
+    .getElementById("nexora-send")
+    .addEventListener("click", sendNexoraMessage);
+
+  document
+    .getElementById("nexora-input")
+    .addEventListener("keydown", event => {
+
+      if (event.key === "Enter") {
+        sendNexoraMessage();
+      }
+
+    });
 }
 
-chatForm.addEventListener("submit",e=>{
-  e.preventDefault();
-  sendChatMessage(chatInput.value);
-});
 
-document.querySelectorAll(".chat-suggestions button").forEach(button=>{
-  button.addEventListener("click",()=>sendChatMessage(button.dataset.question));
-});
+async function sendNexoraMessage() {
+
+  const input = document.getElementById("nexora-input");
+  const messages = document.getElementById("nexora-messages");
+
+  if (!input || !messages) return;
+
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  messages.innerHTML += `
+    <div class="nexora-message user">
+      ${escapeHtml(message)}
+    </div>
+  `;
+
+  input.value = "";
+
+  messages.innerHTML += `
+    <div id="nexora-loading" class="nexora-message bot">
+      Thinking...
+    </div>
+  `;
+
+  messages.scrollTop = messages.scrollHeight;
+
+
+  try {
+
+    const response = await fetch(WORKER_URL, {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        message: message
+      })
+
+    });
+
+
+    const data = await response.json();
+
+    document
+      .getElementById("nexora-loading")
+      ?.remove();
+
+
+    messages.innerHTML += `
+      <div class="nexora-message bot">
+        ${escapeHtml(
+          data.response ||
+          "Sorry, I couldn't answer that."
+        )}
+      </div>
+    `;
+
+
+  } catch (error) {
+
+    document
+      .getElementById("nexora-loading")
+      ?.remove();
+
+    messages.innerHTML += `
+      <div class="nexora-message bot">
+        Sorry, something went wrong.
+        Please contact us at
+        <strong>ianexora3@gmail.com</strong>.
+      </div>
+    `;
+
+  }
+
+  messages.scrollTop = messages.scrollHeight;
+}
+
+
+function escapeHtml(text) {
+
+  const div = document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+}
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  setupNexoraChat
+);
