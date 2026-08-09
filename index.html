@@ -165,5 +165,125 @@
   </aside>
 
   <script src="script.js"></script>
+  <button id="nexora-ai-button" class="chat-toggle" type="button">
+  ✦
+</button>
+
+<div id="nexora-chat" class="chat-widget">
+  <div class="chat-header">
+    <div>
+      <strong>✦ Nexora AI</strong>
+      <small>AI Assistant</small>
+    </div>
+    <button id="nexora-close" type="button">×</button>
+  </div>
+
+  <div id="nexora-messages" class="chat-messages">
+    <div class="chat-bubble bot">
+      Hi! 👋 I'm the Nexora AI assistant.<br>
+      How can I help you today?
+    </div>
+  </div>
+
+  <form id="nexora-form" class="chat-form">
+    <input
+      id="nexora-input"
+      type="text"
+      placeholder="Ask something..."
+      autocomplete="off"
+    >
+    <button type="submit">➤</button>
+  </form>
+</div>
+
+<script>
+const NEXORA_WORKER =
+  "https://nexora-ai.manjarresmartinezandresfelipe.workers.dev";
+
+const aiButton = document.getElementById("nexora-ai-button");
+const chat = document.getElementById("nexora-chat");
+const closeButton = document.getElementById("nexora-close");
+const form = document.getElementById("nexora-form");
+const input = document.getElementById("nexora-input");
+const messages = document.getElementById("nexora-messages");
+
+aiButton.addEventListener("click", () => {
+  chat.classList.add("open");
+  input.focus();
+});
+
+closeButton.addEventListener("click", () => {
+  chat.classList.remove("open");
+});
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  messages.innerHTML += `
+    <div class="chat-bubble user">
+      ${escapeHtml(message)}
+    </div>
+  `;
+
+  input.value = "";
+
+  messages.innerHTML += `
+    <div id="nexora-thinking" class="chat-bubble bot">
+      Thinking...
+    </div>
+  `;
+
+  messages.scrollTop = messages.scrollHeight;
+
+  try {
+    const response = await fetch(NEXORA_WORKER, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message
+      })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("nexora-thinking")?.remove();
+
+    messages.innerHTML += `
+      <div class="chat-bubble bot">
+        ${escapeHtml(
+          data.response || "Sorry, I couldn't answer that."
+        )}
+      </div>
+    `;
+
+  } catch (error) {
+
+    document.getElementById("nexora-thinking")?.remove();
+
+    messages.innerHTML += `
+      <div class="chat-bubble bot">
+        Sorry, something went wrong. Please contact
+        <strong>ianexora3@gmail.com</strong>.
+      </div>
+    `;
+  }
+
+  messages.scrollTop = messages.scrollHeight;
+});
+
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+</script>
+
+</body>
 </body>
 </html>
