@@ -23,7 +23,7 @@ function submitForm(e) {
   );
 
   const body = encodeURIComponent(
-`Name: ${name}
+    `Name: ${name}
 Business: ${business || "Not provided"}
 Email: ${email}
 
@@ -42,9 +42,7 @@ ${message}`
 const WORKER_URL =
   "https://nexora-ai.manjarresmartinezandresfelipe.workers.dev";
 
-
 function setupNexoraChat() {
-
   const elements = document.querySelectorAll("button, a");
 
   const aiButton = Array.from(elements).find(element =>
@@ -56,9 +54,7 @@ function setupNexoraChat() {
   aiButton.addEventListener("click", openNexoraChat);
 }
 
-
 function openNexoraChat() {
-
   if (document.getElementById("nexora-chat")) return;
 
   const chat = document.createElement("div");
@@ -66,40 +62,30 @@ function openNexoraChat() {
   chat.id = "nexora-chat";
 
   chat.innerHTML = `
-    <div class="nexora-chat-box">
-
-      <div class="nexora-chat-header">
-
-        <div>
-          <strong>✦ Nexora AI</strong>
-          <small>AI Assistant</small>
-        </div>
-
-        <button id="close-nexora-chat">×</button>
-
+    <div class="nexora-chat-header">
+      <div>
+        <strong>✦ Nexora AI</strong>
+        <small>AI Assistant</small>
       </div>
 
-      <div id="nexora-messages" class="nexora-messages">
+      <button id="close-nexora-chat">×</button>
+    </div>
 
-        <div class="nexora-message bot">
-          Hi! 👋 I'm the Nexora AI assistant.
-          How can I help you today?
-        </div>
-
+    <div id="nexora-messages" class="nexora-messages">
+      <div class="nexora-message bot">
+        Hi! 👋 I'm the Nexora AI assistant.
+        How can I help you today?
       </div>
+    </div>
 
-      <div class="nexora-chat-input">
+    <div class="nexora-chat-input">
+      <input
+        id="nexora-input"
+        type="text"
+        placeholder="Ask something..."
+      />
 
-        <input
-          id="nexora-input"
-          type="text"
-          placeholder="Ask something..."
-        />
-
-        <button id="nexora-send">➤</button>
-
-      </div>
-
+      <button id="nexora-send">➤</button>
     </div>
   `;
 
@@ -118,17 +104,13 @@ function openNexoraChat() {
   document
     .getElementById("nexora-input")
     .addEventListener("keydown", event => {
-
       if (event.key === "Enter") {
         sendNexoraMessage();
       }
-
     });
 }
 
-
 async function sendNexoraMessage() {
-
   const input = document.getElementById("nexora-input");
   const messages = document.getElementById("nexora-messages");
 
@@ -154,11 +136,8 @@ async function sendNexoraMessage() {
 
   messages.scrollTop = messages.scrollHeight;
 
-
   try {
-
     const response = await fetch(WORKER_URL, {
-
       method: "POST",
 
       headers: {
@@ -168,16 +147,13 @@ async function sendNexoraMessage() {
       body: JSON.stringify({
         message: message
       })
-
     });
-
 
     const data = await response.json();
 
     document
       .getElementById("nexora-loading")
       ?.remove();
-
 
     messages.innerHTML += `
       <div class="nexora-message bot">
@@ -187,7 +163,6 @@ async function sendNexoraMessage() {
         )}
       </div>
     `;
-
 
   } catch (error) {
 
@@ -202,22 +177,18 @@ async function sendNexoraMessage() {
         <strong>ianexora3@gmail.com</strong>.
       </div>
     `;
-
   }
 
   messages.scrollTop = messages.scrollHeight;
 }
 
-
 function escapeHtml(text) {
-
   const div = document.createElement("div");
 
   div.textContent = text;
 
   return div.innerHTML;
 }
-
 
 document.addEventListener(
   "DOMContentLoaded",
