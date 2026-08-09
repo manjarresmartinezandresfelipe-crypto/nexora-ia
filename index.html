@@ -197,93 +197,54 @@
 </div>
 
 <script>
-const NEXORA_WORKER =
-  "https://nexora-ai.manjarresmartinezandresfelipe.workers.dev";
+<script>
+const NEXORA_WORKER = "https://nexora-ai.manjarresmartinezandresfelipe.workers.dev";
 
-const aiButton = document.getElementById("nexora-ai-button");
+const button = document.getElementById("nexora-ai-button");
 const chat = document.getElementById("nexora-chat");
-const closeButton = document.getElementById("nexora-close");
+const close = document.getElementById("nexora-close");
 const form = document.getElementById("nexora-form");
 const input = document.getElementById("nexora-input");
 const messages = document.getElementById("nexora-messages");
 
-aiButton.addEventListener("click", () => {
+button.onclick = () => {
   chat.classList.add("open");
-  input.focus();
-});
+};
 
-closeButton.addEventListener("click", () => {
+close.onclick = () => {
   chat.classList.remove("open");
-});
+};
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
+form.onsubmit = async (e) => {
+  e.preventDefault();
 
   const message = input.value.trim();
-
   if (!message) return;
 
-  messages.innerHTML += `
-    <div class="chat-bubble user">
-      ${escapeHtml(message)}
-    </div>
-  `;
-
+  messages.innerHTML += `<div class="chat-bubble user">${message}</div>`;
   input.value = "";
-
-  messages.innerHTML += `
-    <div id="nexora-thinking" class="chat-bubble bot">
-      Thinking...
-    </div>
-  `;
-
-  messages.scrollTop = messages.scrollHeight;
 
   try {
     const response = await fetch(NEXORA_WORKER, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: message
-      })
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({message})
     });
 
     const data = await response.json();
 
-    document.getElementById("nexora-thinking")?.remove();
-
     messages.innerHTML += `
       <div class="chat-bubble bot">
-        ${escapeHtml(
-          data.response || "Sorry, I couldn't answer that."
-        )}
+        ${data.response || "Sorry, I couldn't answer that."}
       </div>
     `;
 
-  } catch (error) {
-
-    document.getElementById("nexora-thinking")?.remove();
-
+  } catch {
     messages.innerHTML += `
       <div class="chat-bubble bot">
-        Sorry, something went wrong. Please contact
-        <strong>ianexora3@gmail.com</strong>.
+        Something went wrong. Contact ianexora3@gmail.com
       </div>
     `;
   }
-
-  messages.scrollTop = messages.scrollHeight;
-});
-
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
+};
 </script>
-
-</body>
-</body>
-</html>
