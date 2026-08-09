@@ -1457,3 +1457,20 @@ footer {
   }
 }
 ```
+/* Fix pricing cards */
+.cards.three {
+  align-items: stretch;
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+}
+
+.price ul {
+  flex: 1;
+}
+
+.price .btn {
+  margin-top: auto;
+}
