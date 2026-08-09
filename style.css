@@ -1394,83 +1394,23 @@ footer {
   .reason-grid {
     grid-template-columns: 1fr;
   }
-
-  .card,
-  .price {
-    padding: 24px;
-  }
-
-  .project-image {
-    height: 190px;
-  }
-
-  .why-content h2,
-  .contact-content h2 {
-    font-size: 36px;
-  }
-
-  .email-card {
-    padding: 14px;
-  }
-
-  .email-card strong {
-    font-size: 11px;
-  }
-
-  .form {
-    padding: 22px;
-  }
-
-  .form-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .footer {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-links {
-    flex-wrap: wrap;
-  }
-
-  #nexora-chat {
-    right: 12px !important;
-    bottom: 12px !important;
-    width: calc(100vw - 24px) !important;
-    height: 70vh !important;
-    max-height: 560px !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-```
-/* Fix pricing cards */
-.cards.three {
+  .cards.three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   align-items: stretch;
 }
 
-.price {
+.cards.three .price {
   display: flex;
   flex-direction: column;
+  min-height: 500px;
 }
 
-.price ul {
+.cards.three .price ul {
   flex: 1;
 }
 
-.price .btn {
+.cards.three .price .btn {
   margin-top: auto;
 }
+  
