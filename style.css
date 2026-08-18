@@ -951,7 +951,7 @@ footer {
 }
 
 /* =========================
-   OLD CHAT STYLES
+   OLD CHAT
 ========================= */
 
 .chat-toggle {
@@ -975,182 +975,9 @@ footer {
   transform: translateY(-4px) scale(1.03);
 }
 
-.chat-widget {
-  position: fixed;
-  right: 24px;
-  bottom: 94px;
-  z-index: 149;
-  width: min(380px, calc(100vw - 28px));
-  height: 560px;
-  display: none;
-  grid-template-rows: auto 1fr auto auto;
-  border: 1px solid #293447;
-  border-radius: 18px;
-  background: #0b111d;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-}
-
-.chat-widget.open {
-  display: grid;
-}
-
-.chat-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 17px 18px;
-  border-bottom: 1px solid #202b3c;
-  background: rgba(17, 24, 37, 0.92);
-}
-
-.chat-header div {
-  display: flex;
-  flex-direction: column;
-}
-
-.chat-header strong {
-  font-family: "Space Grotesk";
-  font-size: 14px;
-}
-
-.chat-header small {
-  color: #6f7c90;
-  font-size: 10px;
-  margin-top: 2px;
-}
-
-.chat-header button {
-  border: 0;
-  background: none;
-  color: #8993a6;
-  font-size: 25px;
-  cursor: pointer;
-}
-
-.chat-messages {
-  padding: 16px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.chat-bubble {
-  max-width: 88%;
-  padding: 10px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  line-height: 1.55;
-}
-
-.chat-bubble.bot {
-  align-self: flex-start;
-  background: #151e2e;
-  color: #dbe0ea;
-  border: 1px solid #263247;
-}
-
-.chat-bubble.user {
-  align-self: flex-end;
-  background: linear-gradient(135deg, #7568ff, #5c50f2);
-  color: white;
-}
-
-.chat-suggestions {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding: 8px 12px;
-  border-top: 1px solid #1d2736;
-}
-
-.chat-suggestions button {
-  white-space: nowrap;
-  border: 1px solid #30394a;
-  background: #111927;
-  color: #aeb7c7;
-  border-radius: 999px;
-  padding: 7px 9px;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.chat-suggestions button:hover {
-  border-color: #7568ff;
-  color: white;
-}
-
-.chat-form {
-  display: flex;
-  gap: 8px;
-  padding: 12px;
-  border-top: 1px solid #202b3c;
-}
-
-.chat-form input {
-  min-width: 0;
-  flex: 1;
-  padding: 11px 12px;
-  border: 1px solid #30394a;
-  border-radius: 9px;
-  background: #080e19;
-  color: white;
-  outline: none;
-}
-
-.chat-form input:focus {
-  border-color: #7568ff;
-}
-
-.chat-form button {
-  width: 42px;
-  border: 0;
-  border-radius: 9px;
-  background: #7568ff;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.chat-status {
-  min-height: 17px;
-  padding: 0 13px 8px;
-  color: #69758a;
-  font-size: 10px;
-}
-
-.typing {
-  display: inline-flex;
-  gap: 3px;
-}
-
-.typing i {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #8b7cff;
-  animation: typing 1s infinite;
-}
-
-.typing i:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-.typing i:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-@keyframes typing {
-  0%,
-  60%,
-  100% {
-    opacity: 0.25;
-  }
-
-  30% {
-    opacity: 1;
-  }
+/* OLD CHAT WIDGET IS HIDDEN */
+#chat-widget {
+  display: none !important;
 }
 
 /* =========================
@@ -1158,11 +985,11 @@ footer {
 ========================= */
 
 #nexora-chat {
-  display: flex !important;
+  display: none !important;
   flex-direction: column !important;
   position: fixed !important;
   right: 24px !important;
-  bottom: 24px !important;
+  bottom: 94px !important;
   width: 360px !important;
   height: 500px !important;
   background: #ffffff !important;
@@ -1174,7 +1001,11 @@ footer {
   border: 1px solid #e5e7eb !important;
 }
 
-.nexora-chat-header {
+#nexora-chat.open {
+  display: flex !important;
+}
+
+#nexora-chat .chat-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1183,55 +1014,68 @@ footer {
   color: white;
 }
 
-.nexora-chat-header strong {
+#nexora-chat .chat-header > div {
+  display: flex;
+  flex-direction: column;
+}
+
+#nexora-chat .chat-header strong {
   display: block;
   font-size: 16px;
 }
 
-.nexora-chat-header small {
+#nexora-chat .chat-header small {
   display: block;
   margin-top: 3px;
   opacity: 0.7;
 }
 
-#close-nexora-chat {
+#nexora-close {
   border: none;
   background: transparent;
   color: white;
-  font-size: 26px;
+  font-size: 28px;
+  line-height: 1;
   cursor: pointer;
+  padding: 2px 6px;
 }
 
-.nexora-messages {
+#nexora-close:hover {
+  color: #8b7cff;
+}
+
+#nexora-chat .chat-messages {
   flex: 1;
   overflow-y: auto;
   padding: 18px;
   background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.nexora-message {
+#nexora-chat .chat-bubble {
   max-width: 85%;
   padding: 11px 14px;
-  margin-bottom: 10px;
   border-radius: 14px;
   line-height: 1.4;
   font-size: 14px;
 }
 
-.nexora-message.bot {
+#nexora-chat .chat-bubble.bot {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  margin-right: auto;
   color: #111827;
+  align-self: flex-start;
 }
 
-.nexora-message.user {
+#nexora-chat .chat-bubble.user {
   background: #111827;
   color: white;
-  margin-left: auto;
+  align-self: flex-end;
 }
 
-.nexora-chat-input {
+#nexora-chat .chat-form {
   display: flex;
   gap: 8px;
   padding: 12px;
@@ -1254,7 +1098,7 @@ footer {
   border-color: #7568ff;
 }
 
-#nexora-send {
+#nexora-chat .chat-form button {
   width: 45px;
   border: none;
   border-radius: 10px;
@@ -1264,7 +1108,7 @@ footer {
   font-size: 18px;
 }
 
-#nexora-send:hover {
+#nexora-chat .chat-form button:hover {
   background: #7568ff;
 }
 
@@ -1394,23 +1238,37 @@ footer {
   .reason-grid {
     grid-template-columns: 1fr;
   }
+
   .cards.three {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: stretch;
-}
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
 
-.cards.three .price {
-  display: flex;
-  flex-direction: column;
-  min-height: 500px;
-}
+  .cards.three .price {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+  }
 
-.cards.three .price ul {
-  flex: 1;
-}
+  .cards.three .price ul {
+    flex: 1;
+  }
 
-.cards.three .price .btn {
-  margin-top: auto;
+  .cards.three .price .btn {
+    margin-top: auto;
+  }
+
+  #nexora-chat {
+    right: 14px !important;
+    bottom: 84px !important;
+    width: calc(100vw - 28px) !important;
+    height: min(500px, calc(100vh - 110px)) !important;
+  }
+
+  #nexora-ai-button {
+    right: 14px;
+    bottom: 14px;
+  }
 }
-  
+```
